@@ -1,14 +1,17 @@
 {
     "tasks": [
         {
-            "id": 1,
+            "id": 0,
             "description": "Sprzatac trzeba",
-            "author": "MarioDj"
+            "author": "MarioDj",
+            "isCompleted": false
         },
         {
-            "id": 2,
+            "id": 1,
             "description": "No witam pana",
-            "author": "kubadx"
+            "author": "kubadx",
+            "isCompleted": true
+
         }
 
         

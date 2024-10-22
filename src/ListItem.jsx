@@ -2,10 +2,11 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 
 
-function ListItem( {description, id, handleDelete} ) {
+function ListItem( {description, id, handleDelete, isCompleted, toggleCompletion} ) {
     return (
-        <li key={id} className="text-white flex justify-between bg-primary-color p-2 rounded-lg mb-4">
-            <p  className="mr-2">
+        
+        <li key={id}  className={`flex justify-between bg-primary-color p-2 rounded-lg mb-4 text-white select-none`}>
+            <p  className={`mr-2 ${!isCompleted ? 'text-white' : 'text-secondary-color line-through' }`} onClick={() => toggleCompletion(id)}>
                 {description}
             </p>
             <div className="flex items-center justify-between">
@@ -18,7 +19,6 @@ function ListItem( {description, id, handleDelete} ) {
         </li>
     );
 }
-
 
 
 export default ListItem;
