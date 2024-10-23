@@ -1,8 +1,8 @@
 import Input from "./Input";
 import ListItem from "./ListItem";
 import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
-uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+import { v4  } from "uuid";
+
 
 function MainCard() {
 
@@ -22,11 +22,11 @@ function MainCard() {
 
     useEffect(() => {
         console.log(todos);
-    },[todos])
+    })
 
     function handleDelete(index) {
-        setTodos(todos.filter((_ , i) => {
-           return i !== index
+        setTodos(todos.filter((todo) => {
+           return todo.id !== index
         }) )
     }
 
@@ -37,23 +37,33 @@ function MainCard() {
 
     function handleAddTodo() {
         if(newTodo != ""){
-            setTodos((todos) => [...todos, {id: todos.length+1, description: newTodo, author:'siema'}])
+            setTodos((todos) => [...todos, {id: v4(), description: newTodo, isEditing: false}])
         }
         setNewTodo("");
-        
     }
 
     function toggleCompletion(id){
         setTodos(todos.map((todo) => todo.id === id ? {...todo, isCompleted: !todo.isCompleted} : todo))
     }
+
+    function toggleEditing(id){
+        setTodos(todos.map((todo) => todo.id === id ? {...todo, isEditing: !todo.isEditing} : todo ))
+    }
+
+    function editTodo(value, id) {
+        setTodos(todos.map((todo) => todo.id == id ? {...todo, description: value, isEditing: false} : todo))
+    }
+
+
+    
     
 
     return (
         <div className="min-h-6 text-center bg-secondary-color px-9 py-10 rounded-md w-3/4 max-w-5xl">
             <h1 className="text-white text-3xl font-semibold tracking-tight mb-5">Get Things Done!</h1>
-            <Input newTodo={newTodo} handleInputChange={handleInputChange} handleAddTodo={handleAddTodo}/>
+            <Input newTodo={newTodo} handleInputChange={handleInputChange} handleAddTodo={handleAddTodo} buttonText="Add task"/>
             <ul>
-            {todos.length > 0 && todos.map((todo, i) => <ListItem description={todo.description} key={i} id={i} handleDelete={handleDelete} isCompleted={todo.isCompleted} toggleCompletion={toggleCompletion}/>)}
+            {todos.length > 0 && todos.map((todo) => <ListItem description={todo.description} key={todo.id} id={todo.id} handleDelete={handleDelete} isCompleted={todo.isCompleted} toggleCompletion={toggleCompletion} isEditing={todo.isEditing} toggleEditing={toggleEditing} editTodo={editTodo}/>)}
             </ul>
            
         </div>);
