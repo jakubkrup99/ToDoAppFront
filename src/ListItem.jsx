@@ -4,9 +4,35 @@ import EditTodoForm from "./EditTodoForm";
 //TODO: Stop refreshing page when i press enter
 
 
-function ListItem( {description, id, handleDelete, isCompleted, toggleCompletion, isEditing, toggleEditing, editTodo} ) {
-    return isEditing ? <EditTodoForm id={id} initialValue={description} editTodo={editTodo}/> : (
+function ListItem({ todo, setTodos }) {
 
+    const {isCompleted, id, isEditing, description} = todo;
+
+    function toggleEditing(id){
+        setTodos((todos) => {
+            return todos.map((todo) => todo.id === id ? {...todo, isEditing: !todo.isEditing} : todo );
+        })
+    }
+
+    function handleDelete(index) {
+        setTodos((todos) => {
+            return todos.filter((todo) => todo.id !== index);
+        })
+    }
+
+    function toggleCompletion(id) {
+        setTodos((todos) => {
+            return todos.map((todo) => todo.id === id ? {...todo, isCompleted: !todo.isCompleted} : todo)
+        })
+    }
+
+    function editTodo(value, id){
+        setTodos((todos) => {
+            return todos.map((todo) => todo.id == id ? {...todo, description: value, isEditing: false} : todo)
+        })
+    }
+
+    return isEditing ? <EditTodoForm id={id} initialValue={description} editTodo={editTodo}/> : (
         
         <li  key={id} className={`flex   justify-between bg-primary-color p-2 rounded-lg mb-4 text-white select-none`}>
             <p  className={`mr-2 break-all	 ${!isCompleted ? 'text-white' : 'text-secondary-color line-through' }`} onClick={() => toggleCompletion(id)}>
@@ -20,8 +46,8 @@ function ListItem( {description, id, handleDelete, isCompleted, toggleCompletion
                 
             </div>
         </li>
+
     );
 }
-
 
 export default ListItem;

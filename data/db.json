@@ -2,13 +2,13 @@
     "tasks": [
         {
             "id": 1,
-            "description": "Skutassss",
-            "isCompleted": false
+            "description": "Posprztac pokoj",
+            "isCompleted": true
         },
         {
             "id": 2,
-            "description": "No witam pana",
-            "isCompleted": true
+            "description": "zrobic zakupy",
+            "isCompleted": false
 
         }
 
