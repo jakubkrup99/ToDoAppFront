@@ -1,8 +1,10 @@
 import MainCard from "./MainCard";
 
+//TODO: ADD TODOS IN JSON IN LOCAL STORAGE  
+
 function App() {
     return (
-    <div className="h-screen bg-primary-color flex justify-center  items-center">
+    <div className="flex justify-center  items-center">
         <MainCard/>
     </div>
     );

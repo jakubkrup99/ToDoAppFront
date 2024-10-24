@@ -18,6 +18,17 @@ function ListItem({ todo, setTodos }) {
         setTodos((todos) => {
             return todos.filter((todo) => todo.id !== index);
         })
+
+        fetch(`http://localhost:5100/${index}`, {
+            method: "DELETE",
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }).then((result) => {
+            console.log(result);
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     function toggleCompletion(id) {
@@ -34,7 +45,8 @@ function ListItem({ todo, setTodos }) {
 
     return isEditing ? <EditTodoForm id={id} initialValue={description} editTodo={editTodo}/> : (
         
-        <li  key={id} className={`flex   justify-between bg-primary-color p-2 rounded-lg mb-4 text-white select-none`}>
+        <div>
+        <li  key={id} className={`flex justify-between bg-primary-color p-2 rounded-lg mb-4 text-white select-none`}>
             <p  className={`mr-2 break-all	 ${!isCompleted ? 'text-white' : 'text-secondary-color line-through' }`} onClick={() => toggleCompletion(id)}>
                 {description}
             </p>
@@ -46,7 +58,7 @@ function ListItem({ todo, setTodos }) {
                 
             </div>
         </li>
-
+        </div>
     );
 }
 
