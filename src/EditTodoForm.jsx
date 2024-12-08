@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function EditTodoForm( {initialValue, id, editTodo} ) {
+function EditTodoForm( {initialValue, id, setTodos} ) {
 
     const [value, setValue] = useState(initialValue);
 
@@ -11,6 +11,27 @@ function EditTodoForm( {initialValue, id, editTodo} ) {
     function handleSubmit(e){
         e.preventDefault();
         editTodo(value, id);
+    }
+
+    function editTodo(value, id){
+        setTodos((todos) => {
+            return todos.map((todo) => todo.id == id ? {...todo, description: value, isEditing: false} : todo)
+        })
+        
+        const patchDto = [{"path": "/description", "op": "replace", "value": value}];
+
+        fetch(`http://localhost:5100/todo/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-type': 'application/json-patch+json'
+            },
+            body: JSON.stringify(patchDto), 
+        }).then((result) => {
+            console.log(result);
+        }).catch((err) => {
+            console.log(err);
+        });
+        
     }
 
     return (

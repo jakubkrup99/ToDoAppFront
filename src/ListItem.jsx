@@ -19,7 +19,7 @@ function ListItem({ todo, setTodos }) {
             return todos.filter((todo) => todo.id !== index);
         })
 
-        fetch(`http://localhost:5100/${index}`, {
+        fetch(`http://localhost:5100/todo/${index}`, {
             method: "DELETE",
             headers: {
                 'Content-type': 'application/json'
@@ -31,19 +31,38 @@ function ListItem({ todo, setTodos }) {
         });
     }
 
-    function toggleCompletion(id) {
-        setTodos((todos) => {
-            return todos.map((todo) => todo.id === id ? {...todo, isCompleted: !todo.isCompleted} : todo)
+    async function toggleCompletion(id) {
+        let isCompleted
+        await setTodos((todos) => {
+            return todos.map((todo) => {
+                if(todo.id === id){
+                    isCompleted = !todo.isCompleted;
+                    console.log('jestem here', todo.isCompleted);
+
+                    return {...todo, isCompleted}
+                }
+                return todo;
+            })
         })
+        console.log('now im here', isCompleted);
+        const patchDto = [{"path": "/iscompleted", "op": "replace", "value": isCompleted}];
+
+         fetch(`http://localhost:5100/todo/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-type': 'application/json-patch+json'
+            },
+            body: JSON.stringify(patchDto), 
+        }).then((result) => {
+            console.log(result);
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
-    function editTodo(value, id){
-        setTodos((todos) => {
-            return todos.map((todo) => todo.id == id ? {...todo, description: value, isEditing: false} : todo)
-        })
-    }
+    
 
-    return isEditing ? <EditTodoForm id={id} initialValue={description} editTodo={editTodo}/> : (
+    return isEditing ? <EditTodoForm id={id} initialValue={description} setTodos={setTodos}/> : (
         
         <div>
         <li  key={id} className={`flex justify-between bg-primary-color p-2 rounded-lg mb-4 text-white select-none`}>
@@ -51,7 +70,7 @@ function ListItem({ todo, setTodos }) {
                 {description}
             </p>
             <div className="flex items-center justify-between">
-                <FaEdit className="mr-2" onClick={() => toggleEditing(id)} />
+                <FaEdit className="mr-2 cursor-pointer" onClick={() => toggleEditing(id)} />
                 <button onClick={() => handleDelete(id)}>
                     <FaRegTrashAlt />
                 </button>

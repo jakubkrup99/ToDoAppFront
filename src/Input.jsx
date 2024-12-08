@@ -1,5 +1,3 @@
-import { v4  } from "uuid";
-
 import { useState } from "react";
 
 function Input({ setTodos }) {
@@ -13,14 +11,14 @@ function Input({ setTodos }) {
 
     function handleAddTodo(e) {
         e.preventDefault();
-        if(newTodo != ""){
-            setTodos((todos) => [...todos, {id: v4(), description: newTodo, isEditing: false}])
+        if(newTodo == ""){
+            return;
         }
 
-        const todoDto = {description: newTodo, isCompleted: false};
-        console.log(JSON.stringify(todoDto), 'todoDto');
 
-        fetch('http://localhost:5100/todos', {
+
+        const todoDto = {description: newTodo, isCompleted: false};
+        fetch('http://localhost:5100/todo', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -36,6 +34,8 @@ function Input({ setTodos }) {
         .then(data => {
                 console.log('Success:', data);
                 setNewTodo("");
+                setTodos((todos) => [...todos, {id: data.id, description: newTodo, isEditing: false}])
+
 
         })
         .catch(error => {

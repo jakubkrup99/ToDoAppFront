@@ -9,9 +9,9 @@ function MainCard() {
     useEffect( () => {
         async function fetchData() {
             
-            const fetched = await fetch('http://localhost:5100/todos');
+            const fetched = await fetch('http://localhost:5100/todo');
             let data = await fetched.json();
-            data = data.map((task) => ({...task, id:Number(task.id), isEditing: false}))
+            data = data.map((task) => ({...task, id: task.id, isEditing: false}))
             setTodos(data);
         }
         fetchData();
@@ -21,7 +21,7 @@ function MainCard() {
 
     return (
 
-        <div className="text-center bg-secondary-color px-9 py-10 rounded-md w-3/4 max-w-5xl mt-20">
+        <div className="text-center bg-secondary-color px-8 py-10 rounded-md w-3/4 max-w-3xl mt-20">
             <h1 className="text-white text-3xl font-semibold tracking-tight mb-5">Get Things Done!</h1>
             <Input todos={todos} setTodos={setTodos} buttonText="Add task"/>
             <ul>
