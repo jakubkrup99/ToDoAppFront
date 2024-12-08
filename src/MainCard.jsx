@@ -9,7 +9,8 @@ function MainCard() {
     useEffect( () => {
         async function fetchData() {
             
-            const fetched = await fetch('http://localhost:5100/todo');
+            const fetched = await fetch('https://localhost:5100/todos');
+            console.log(fetched);
             let data = await fetched.json();
             data = data.map((task) => ({...task, id: task.id, isEditing: false}))
             setTodos(data);

@@ -20,7 +20,7 @@ function EditTodoForm( {initialValue, id, setTodos} ) {
         
         const patchDto = [{"path": "/description", "op": "replace", "value": value}];
 
-        fetch(`http://localhost:5100/todo/${id}`, {
+        fetch(`https://localhost:5100/todos/${id}`, {
             method: 'PATCH',
             headers: {
                 'Content-type': 'application/json-patch+json'

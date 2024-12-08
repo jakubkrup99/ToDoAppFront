@@ -18,7 +18,7 @@ function Input({ setTodos }) {
 
 
         const todoDto = {description: newTodo, isCompleted: false};
-        fetch('http://localhost:5100/todo', {
+        fetch('https://localhost:5100/todos', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'

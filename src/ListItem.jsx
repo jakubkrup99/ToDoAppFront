@@ -19,7 +19,7 @@ function ListItem({ todo, setTodos }) {
             return todos.filter((todo) => todo.id !== index);
         })
 
-        fetch(`http://localhost:5100/todo/${index}`, {
+        fetch(`https://localhost:5100/todos/${index}`, {
             method: "DELETE",
             headers: {
                 'Content-type': 'application/json'
